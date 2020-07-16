@@ -1,16 +1,21 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Axios from 'axios';
 
 class App extends React.Component {
     state = { user: { firstName: '', lastName: '' } };
 
     componentDidMount() {
-        Axios.get('/.auth/me', { withCredentials: true }).then((response) => {
-            console.log(response);
-            this.setState({ user: { firstName: response.data[0].user_id } });
-        });
+        fetch('https://app-kurs-azure-dev.azurewebsites.net/users/?id=1')
+            .then((res) => res.json())
+            .then((user) => {
+                this.setState({
+                    user: {
+                        firstName: user.FirstName,
+                        lastName: user.LastName,
+                    },
+                });
+            });
     }
 
     render() {
